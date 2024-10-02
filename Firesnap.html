@@ -1,0 +1,93 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="firesnap.css">
+</head>
+
+<section class="intro">
+	<img src="./firesnap_logo.jpg" alt="Firesnap Logo">
+    <h1>Welcome to FireSnap</h1>
+	
+    <h2>What is FireSnap?</h2>
+
+    <p>
+        FireSnap is an automated QR code generator designed to enhance employee safety during emergencies. It operates in sync with the company’s employee register, enabling efficient tracking and verification to ensure that all active employees have safely evacuated the building during emergency drills or real emergencies.
+    </p>
+</section>
+
+<section class="how-it-works">
+    <h2>How does FireSnap Work?</h2>
+
+    <p>
+        FireSnap generates a QR code for each employee that will be scanned by a dedicated supervisor to ensure the employee has safely left the building in the event of an emergency. The QR code will contain the employee's name, surname, and supervisor or line manager's name.
+        <br />
+        To ensure that the information is accurate, FireSnap is linked to a database that stores all employee information per floor and building, ensuring all employees have evacuated and reported to the necessary gathering points.
+        <br />
+        FireSnap is the future of attendance tracking, ensuring safety during emergencies.
+    </p>
+</section>
+
+<section class="attendance-check">
+    <h1>Attendance Check</h1>
+    <p>Scan the QR code for each person to mark their attendance.</p>
+
+    <table id="attendance-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>QR Code</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="attendance-body">
+            <tr>
+                <td>John Doe</td>
+                <td><div id="qrcode-1"></div></td>
+                <td id="status-1" class="status-cell">Not Present</td>
+            </tr>
+            <tr>
+                <td>Jane Smith</td>
+                <td><div id="qrcode-2"></div></td>
+                <td id="status-2" class="status-cell">Not Present</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        const people = [
+            { name: 'John Doe', id: '1', url: 'https://example.com/check?id=1' },
+            { name: 'Jane Smith', id: '2', url: 'https://example.com/check?id=2' }
+        ];
+
+        function generateQRCodes() {
+            people.forEach(person => {
+                const qrContainer = document.getElementById('qrcode-' + person.id);
+                if (qrContainer) {
+                    new QRCode(qrContainer, {
+                        text: person.url,
+                        width: 100,
+                        height: 100
+                    });
+                }
+            });
+        }
+
+        function markAttendance(id) {
+            const statusCell = document.getElementById('status-' + id);
+            if (statusCell) {
+                statusCell.textContent = 'Present';
+                statusCell.classList.add('checked');
+            }
+        }
+
+        function simulateScan() {
+            setTimeout(() => {
+                markAttendance(1);
+            }, 30000);
+        }
+
+        window.onload = () => {
+            generateQRCodes();
+            simulateScan();
+        }
+    </script>
+</section>
